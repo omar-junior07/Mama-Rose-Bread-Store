@@ -1,156 +1,1328 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Mama Rose Bread — COMING SOON</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mama Rose Bread Shop | Artisan Bread Resale</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'clay': '#c4704b',
+                        'clay-light': '#e8c4a8',
+                        'forest': '#2d4a3e',
+                        'forest-light': '#4a7c6f',
+                        'cream-warm': '#faf6f1',
+                        'wheat': '#d4a574',
+                        'charcoal': '#2c2c2c',
+                        'stone': '#8c8c8c'
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"DM Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-padding-top: 6rem; }
+        img { max-width: 100%; }
+        @media (max-width: 639px) {
+            .bakery-scroll { gap: 1rem; padding-right: 1.5rem; }
+            .bakery-card { width: min(82vw, 300px); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        html { scroll-padding-top: 6rem; }
+        img { max-width: 100%; }
+        @media (max-width: 639px) { .bakery-scroll { gap: 1rem; padding-right: 1.5rem; } .bakery-card { width: min(82vw, 300px); } }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #faf6f1; }
+        ::-webkit-scrollbar-thumb { background: #c4704b; border-radius: 4px; }
 
-  <!-- Favicon: a warm circular badge created as an inline SVG data URI -->
-  <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%23F9E5C9'/><g transform='translate(10,12)'><path d='M10 40c6-18 36-22 52-8 6 6 8 22-6 30-12 7-32 12-44-6-6-10-6-18-2-28z' fill='%23F6B26B' stroke='%23C46A28' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></g></svg>">
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-  <style>
-    :root{
-      --bg1:#FFF8F2;
-      --bg2:#FDF3EA;
-      --accent:#D97706; /* warm bread color */
-      --muted:#6b6b6b;
-      --glass: rgba(255,255,255,0.55);
-      --shadow: 0 8px 30px rgba(16,24,40,0.12);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-    }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
 
-    html,body{height:100%;}
-    body{
-      margin:0;
-      min-height:100%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background: radial-gradient(1000px 600px at 10% 10%, #fff6e8 0%, var(--bg1) 20%, var(--bg2) 100%);
-      color:#0f172a;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-    }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
 
-    .card{
-      width:min(980px,92%);
-      border-radius:20px;
-      padding:48px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.75));
-      box-shadow:var(--shadow);
-      display:grid;
-      grid-template-columns: 1fr 320px;
-      gap:28px;
-      align-items:center;
-      backdrop-filter: blur(6px) saturate(120%);
-    }
+        .scale-reveal {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.8s ease-out;
+        }
+        .scale-reveal.active {
+            opacity: 1;
+            transform: scale(1);
+        }
 
-    @media (max-width:820px){
-      .card{grid-template-columns:1fr; padding:36px;}
-    }
+        .bakery-scroll {
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding: 2rem 1rem;
+            scrollbar-width: thin;
+            scrollbar-color: #c4704b transparent;
+        }
+        .bakery-scroll::-webkit-scrollbar { height: 6px; }
+        .bakery-scroll::-webkit-scrollbar-thumb { background: #c4704b; border-radius: 3px; }
 
-    .left{
-      padding-right:12px;
-    }
+        .bakery-card {
+            scroll-snap-align: start;
+            flex-shrink: 0;
+            width: 300px;
+        }
 
-    .brand{
-      display:flex;gap:14px;align-items:center;margin-bottom:16px;
-    }
+        .masonry-grid {
+            columns: 1;
+            column-gap: 1.5rem;
+        }
+        @media (min-width: 640px) { .masonry-grid { columns: 2; } }
+        @media (min-width: 1024px) { .masonry-grid { columns: 3; } }
 
-    .logo-badge{
-      width:68px;height:68px;border-radius:14px;display:grid;place-items:center;font-weight:700;background:linear-gradient(180deg,#FFEFD9,#F6D29A);box-shadow:0 6px 18px rgba(196,106,40,0.14);
-    }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 1.5rem;
+        }
 
-    .logo-badge svg{width:38px;height:38px}
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .float-anim { animation: float 4s ease-in-out infinite; }
+        .float-anim-delay { animation: float 4s ease-in-out 2s infinite; }
 
-    .brand-name {
-      font-weight:800;
-      font-size:28px;
-      line-height:1.2;
-    }
+        #mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #mobile-menu.open {
+            transform: translateX(0);
+        }
 
-    h1{
-      margin:0 0 10px 0;
-      font-size:44px;letter-spacing:0.02em;
-      line-height:1.02;
-      animation: fadeGlow 2s ease-in-out infinite;
-      color: var(--accent);
-      text-shadow: 0 0 15px rgba(249, 115, 22, 0.7), 0 0 30px rgba(251, 146, 60, 0.6);
-    }
+        @keyframes pulse-soft {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(196, 112, 75, 0.4); }
+            50% { box-shadow: 0 0 0 12px rgba(196, 112, 75, 0); }
+        }
+        .pulse-cta {
+            animation: pulse-soft 2s infinite;
+        }
 
-    @keyframes fadeGlow {
-      0%, 100% { opacity: 1; text-shadow: 0 0 10px rgba(249,115,22,0.4), 0 0 20px rgba(251,146,60,0.3); }
-      50% { opacity: 0.6; text-shadow: 0 0 25px rgba(249,115,22,0.9), 0 0 45px rgba(251,146,60,0.8); }
-    }
+        .grain::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1;
+        }
 
-    .subtitle{color:var(--muted);font-size:16px;margin-bottom:22px}
-
-    .coming{
-      display:inline-block;padding:18px 28px;border-radius:999px;background:linear-gradient(90deg,var(--accent),#fb923c);color:white;font-weight:700;font-size:18px;box-shadow:0 8px 30px rgba(249,115,22,0.18);}
-
-    .right{
-      display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;gap:18px;
-    }
-
-    .countdown-card{
-      width:100%;background:var(--glass);border-radius:14px;padding:16px;text-align:center;box-shadow:inset 0 -1px 0 rgba(255,255,255,0.6);
-    }
-
-    .countdown-card strong{
-      display:block;
-      font-size:20px;
-      color:var(--accent);
-    }
-
-    .designer{font-size:13px;color:var(--muted);text-align:center;margin-top:8px}
-
-    .designer a{color:var(--accent);text-decoration:none;font-weight:600}
-
-    .note{font-size:13px;color:var(--muted);text-align:center;margin-top:10px}
-
-    footer{position:fixed;left:16px;bottom:12px;color:var(--muted);font-size:13px}
-  </style>
+        /* Bakery badge colors */
+        .badge-hotoven { background-color: #d4a574; }
+        .badge-freshbite { background-color: #e67e22; }
+        .badge-a1 { background-color: #2d4a3e; }
+        .badge-maaregi { background-color: #8b4513; }
+        .badge-awo { background-color: #5d4037; }
+        .badge-salah { background-color: #c0392b; }
+        .badge-vitality { background-color: #27ae60; }
+        .badge-fc { background-color: #2980b9; }
+    </style>
 </head>
-<body>
-  <main class="card" role="main" aria-labelledby="coming-heading">
-    <section class="left">
-      <div class="brand" aria-hidden="true">
-        <div class="logo-badge" title="Mama Rose Bread logo">
-          <!-- small decorative bread SVG -->
-          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M6 36c2-14 24-18 34-12 6 4 12 14 6 24-6 10-28 12-38 0C4 44 4 38 6 36z" fill="#F6B26B"/>
-            <path d="M14 30c4-6 14-8 22-6" stroke="#C46A28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-          </svg>
+<body class="bg-cream-warm text-charcoal font-sans antialiased overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav id="main-nav" class="fixed w-full z-50 transition-all duration-500">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex justify-between items-center h-24">
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-12 h-12 bg-clay rounded-full flex items-center justify-center text-white group-hover:rotate-12 transition-transform duration-300">
+                        <i class="fa-solid fa-wheat-awn text-xl"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-serif text-3xl font-bold text-forest leading-none">Mama Rose</span>
+                        <span class="text-xs tracking-[0.3em] uppercase text-stone font-medium mt-1">Bread Shop</span>
+                    </div>
+                </a>
+
+                <div class="hidden lg:flex items-center gap-10">
+                    <a href="#story" class="text-sm font-medium text-charcoal hover:text-clay transition-colors relative group">
+                        Our Story
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-clay transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#bakeries" class="text-sm font-medium text-charcoal hover:text-clay transition-colors relative group">
+                        Partner Bakeries
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-clay transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#menu" class="text-sm font-medium text-charcoal hover:text-clay transition-colors relative group">
+                        Menu
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-clay transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#visit" class="text-sm font-medium text-charcoal hover:text-clay transition-colors relative group">
+                        Visit Us
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-clay transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <a href="#visit" class="hidden sm:inline-flex items-center gap-2 px-6 py-3 bg-forest text-white text-sm font-bold rounded-full hover:bg-forest-light transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+                        <i class="fa-solid fa-basket-shopping"></i>
+                        Order Now
+                    </a>
+                    <button id="mobile-toggle" type="button" aria-label="Open navigation menu" aria-controls="mobile-menu" aria-expanded="false" class="lg:hidden w-10 h-10 flex items-center justify-center text-forest">
+                        <i class="fa-solid fa-bars-staggered text-xl"></i>
+                    </button>
+                </div>
+            </div>
         </div>
-        <div>
-          <div class="brand-name">Mama Rose Bread</div>
-          <div style="font-size:13px;color:var(--muted);">Handmade • Daily Fresh</div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation menu" aria-hidden="true" inert class="lg:hidden fixed inset-0 bg-cream-warm z-[60]">
+        <div class="flex flex-col h-full p-8 pt-24 relative">
+            <button id="mobile-close" type="button" aria-label="Close navigation menu" class="absolute top-8 right-8 w-12 h-12 bg-forest text-white rounded-full flex items-center justify-center hover:bg-clay transition-colors shadow-lg">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <div class="flex flex-col gap-8">
+                <a href="#story" class="mobile-link font-serif text-4xl text-forest hover:text-clay transition">Our Story</a>
+                <a href="#bakeries" class="mobile-link font-serif text-4xl text-forest hover:text-clay transition">Partner Bakeries</a>
+                <a href="#menu" class="mobile-link font-serif text-4xl text-forest hover:text-clay transition">Menu</a>
+                <a href="#visit" class="mobile-link font-serif text-4xl text-forest hover:text-clay transition">Visit Us</a>
+            </div>
+            <div class="mt-auto space-y-4">
+                <a href="tel:0276462728" class="flex items-center justify-center gap-3 w-full py-4 bg-forest text-white font-bold rounded-full hover:bg-forest-light transition">
+                    <i class="fa-solid fa-phone"></i>
+                    Call to Order
+                </a>
+                <a href="https://wa.me/233276462728" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-3 w-full py-4 bg-green-600 text-white font-bold rounded-full hover:bg-green-700 transition">
+                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                    Order on WhatsApp
+                </a>
+            </div>
         </div>
-      </div>
+    </div>
 
-      <h1 id="coming-heading">COMING SOON</h1>
-      <p class="subtitle">Freshly baked breads, pastries and warm smiles — Mama Rose is rising and will be ready to serve you soon.</p>
+    <!-- Hero Section -->
+    <section class="min-h-screen flex flex-col lg:flex-row relative">
+        <div class="lg:w-1/2 flex items-center justify-center px-8 lg:px-16 py-32 lg:py-0 relative z-10">
+            <div class="max-w-lg reveal-left">
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-clay/10 rounded-full mb-8">
+                    <span class="w-2 h-2 bg-clay rounded-full animate-pulse"></span>
+                    <span class="text-xs font-bold tracking-widest uppercase text-clay">Open Daily 6am - 10pm</span>
+                </div>
+                <h1 class="font-serif text-5xl lg:text-7xl font-bold text-forest leading-[0.95] mb-6">
+                    Fresh Bread,<br>
+                    <span class="italic text-clay font-normal">Curated</span> for You
+                </h1>
+                <p class="text-lg text-stone leading-relaxed mb-10 max-w-md">
+                    We handpick the finest loaves from Anyinam's most beloved bakeries. From Hot Oven's classics to First Class Bakery's specialties — every bite tells a story.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#menu" class="px-8 py-4 bg-forest text-white font-bold rounded-full hover:bg-forest-light transition-all duration-300 shadow-lg hover:shadow-2xl hover:-translate-y-1">
+                        Explore Menu
+                    </a>
+                    <a href="#bakeries" class="px-8 py-4 border-2 border-forest text-forest font-bold rounded-full hover:bg-forest hover:text-white transition-all duration-300">
+                        Our Bakeries
+                    </a>
+                </div>
 
-      <div class="coming" aria-hidden="true">Stay tuned — deliciousness loading</div>
+                <div class="flex gap-8 mt-12 pt-8 border-t border-gray-200">
+                    <div>
+                        <p class="font-serif text-3xl font-bold text-forest">8</p>
+                        <p class="text-xs text-stone uppercase tracking-wider mt-1">Partner Bakeries</p>
+                    </div>
+                    <div>
+                        <p class="font-serif text-3xl font-bold text-forest">4</p>
+                        <p class="text-xs text-stone uppercase tracking-wider mt-1">Bread Types</p>
+                    </div>
+                    <div>
+                        <p class="font-serif text-3xl font-bold text-forest">100%</p>
+                        <p class="text-xs text-stone uppercase tracking-wider mt-1">Fresh Daily</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-      <p class="note">Want to be notified when we open? Save this page or contact us through our social channels (links will appear here soon).</p>
+        <div class="lg:w-1/2 relative min-h-[50vh] lg:min-h-screen">
+            <img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                 alt="Fresh artisan bread"
+                 class="absolute inset-0 w-full h-full object-cover" fetchpriority="high">
+            <div class="absolute inset-0 bg-gradient-to-r from-cream-warm via-transparent to-transparent lg:from-cream-warm/80"></div>
+
+            <div class="absolute bottom-12 left-8 lg:left-[-60px] bg-white/95 backdrop-blur p-5 rounded-2xl shadow-2xl float-anim max-w-[200px]">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 bg-clay/10 rounded-full flex items-center justify-center text-clay">
+                        <i class="fa-solid fa-motorcycle"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-stone">Delivery</p>
+                        <p class="font-bold text-forest text-sm">Available</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="absolute top-24 right-8 bg-white/95 backdrop-blur p-5 rounded-2xl shadow-2xl float-anim-delay max-w-[200px]">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 bg-forest/10 rounded-full flex items-center justify-center text-forest">
+                        <i class="fa-solid fa-store"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-stone">Pickup</p>
+                        <p class="font-bold text-forest text-sm">Walk-ins Welcome</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <aside class="right" aria-label="Launch info">
-      <div class="countdown-card" role="status">
-        <strong>Website Opening Soon</strong>
-        <div style="font-size:12px;color:var(--muted);margin-top:8px">We’re working on something warm and tasty. Follow for updates.</div>
-      </div>
+    <!-- Story Section -->
+    <section id="story" class="py-24 lg:py-32 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-clay/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
 
-      <div class="designer">Designed by <a href="#" aria-label="Designer Omar Junior">@Omar Junior</a></div>
-    </aside>
-  </main>
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-5 relative reveal-left">
+                    <div class="relative">
+                        <img src="https://media.istockphoto.com/id/1309595196/photo/young-redhead-woman-in-bakery-shop-choosing-pastry.jpg?s=612x612&w=0&k=20&c=N_C0SPyaRzpfEEraI7Dm2vLV9gu_sa7hiBh6wJ70gO8="
+                             alt="Baker at work"
+                             class="rounded-3xl shadow-2xl w-full h-[500px] object-cover">
+                        <div class="absolute -bottom-6 -right-6 w-48 h-48 bg-clay rounded-3xl -z-10"></div>
+                        <div class="absolute -top-6 -left-6 w-32 h-32 border-2 border-forest/20 rounded-3xl -z-10"></div>
+                    </div>
+                </div>
 
-  <footer>© <span id="year"></span> Mama Rose Bread</footer>
+                <div class="lg:col-span-7 lg:pl-12 reveal-right">
+                    <span class="text-clay font-bold tracking-widest uppercase text-sm mb-4 block">Since 2020</span>
+                    <h2 class="font-serif text-4xl lg:text-6xl font-bold text-forest mb-8 leading-tight">
+                        A Mother's Love,<br>
+                        <span class="italic font-normal text-clay">Baked into Every Loaf</span>
+                    </h2>
+                    <div class="space-y-6 text-stone text-lg leading-relaxed">
+                        <p>
+                            Mama Rose started with a simple belief: everyone deserves access to great bread. Not just any bread, but the kind that makes your kitchen smell like home.
+                        </p>
+                        <p>
+                            We partner with Akyem Anyinam's finest — <strong class="text-forest">Hot Oven, A1 Bread, Maa Regi Bakery, Fresh Bite, AWO Bakery, Salah Bakery, Vitality Bread Bakery,</strong> and <strong class="text-forest">First Class (FC) Bakery</strong> — to bring you an unmatched variety under one roof.
+                        </p>
+                        <p>
+                            Whether it's the rich indulgence of Butter Bread, the wholesome goodness of Sugar Bread, the hearty texture of Wheat Bread, or the sweet comfort of Cake Bread, we select each item as if it were for our own family.
+                        </p>
+                    </div>
 
-  <script>
-    // Small script to set the year dynamically
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+                    <div class="mt-10 flex items-center gap-4">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
+                             alt="Mama Rose"
+                             class="w-14 h-14 rounded-full object-cover border-2 border-clay">
+                        <div>
+                            <p class="font-serif text-xl font-bold text-forest">Mama Rose</p>
+                            <p class="text-sm text-stone">Founder & Chief Bread Curator</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partner Bakeries - Horizontal Scroll -->
+    <section id="bakeries" class="py-24 bg-forest text-white relative grain overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 mb-12">
+            <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 reveal">
+                <div>
+                    <span class="text-clay-light font-bold tracking-widest uppercase text-sm mb-4 block">Trusted Partners</span>
+                    <h2 class="font-serif text-4xl lg:text-5xl font-bold">Our Bakery Family</h2>
+                </div>
+                <p class="text-white/70 max-w-md text-lg">
+                    Scroll to discover the talented bakers behind your favorite breads.
+                </p>
+            </div>
+        </div>
+
+        <div class="bakery-scroll pl-6 lg:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] pb-4">
+            <!-- Hot Oven -->
+            <div class="bakery-card group">
+                <div class="relative h-80 rounded-3xl overflow-hidden mb-4">
+                    <img src="https://images.unsplash.com/photo-1517433670267-08bbd4be890f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                         class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Hot Oven">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    <div class="absolute bottom-6 left-6">
+                        <span class="px-3 py-1 bg-clay text-white text-xs font-bold rounded-full mb-2 inline-block">4 Varieties</span>
+                        <h3 class="font-serif text-2xl font-bold">Hot Oven</h3>
+                    </div>
+                </div>
+                <p class="text-white/60 text-sm">Cake Bread, Butter Bread, Fruit Bread, Milk & Chocolate Bread. The most diverse selection in town!</p>
+            </div>
+
+            <!-- Fresh Bite -->
+            <div class="bakery-card group">
+                <div class="relative h-80 rounded-3xl overflow-hidden mb-4">
+                    <img src="https://images.unsplash.com/photo-1598373182133-52452f7691ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                         class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Fresh Bite">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    <div class="absolute bottom-6 left-6">
+                        <span class="px-3 py-1 badge-freshbite text-white text-xs font-bold rounded-full mb-2 inline-block">1 Variety</span>
+                        <h3 class="font-serif text-2xl font-bold">Fresh Bite</h3>
+                    </div>
+                </div>
+                <p class="text-white/60 text-sm">Specialists in Slice Bread. Perfect for sandwiches and toast, sliced to perfection.</p>
+            </div>
+
+            <!-- A1 Bread -->
+            <div class="bakery-card group">
+                <div class="relative h-80 rounded-3xl overflow-hidden mb-4">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfgwSrRDF_yWXuGJ7lV6Y6zB-fjrUGzirPhKU_-_4rZlZS85lHBrv8lo5F&s=10"
+                         class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="A1 Bread">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    <div class="absolute bottom-6 left-6">
+                        <span class="px-3 py-1 badge-a1 text-white text-xs font-bold rounded-full mb-2 inline-block">1 Variety</span>
+                        <h3 class="font-serif text-2xl font-bold">A1 Bread</h3>
+                    </div>
+                </div>
+                <p class="text-white/60 text-sm">The gold standard in Cake Bread. Rich, moist, and perfect for celebrations.</p>
+            </div>
+
+            <!-- Maa Regi Bakery -->
+            <div class="bakery-card group">
+                <div class="relative h-80 rounded-3xl overflow-hidden mb-4">
+                    <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                         class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Maa Regi Bakery">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    <div class="absolute bottom-6 left-6">
+                        <span class="px-3 py-1 badge-maaregi text-white text-xs font-bold rounded-full mb-2 inline-block">2 Varieties</span>
+                        <h3 class="font-serif text-2xl font-bold">Maa Regi Bakery</h3>
+                    </div>
+                </div>
+                <p class="text-white/60 text-sm">Butter Bread and Sugar Bread. Traditional recipes with a homestyle touch.</p>
+            </div>
+
+            <!-- AWO Bakery -->
+            <div class="bakery-card group">
+                <div class="relative h-80 rounded-3xl overflow-hidden mb-4">
+                    <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                         class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="AWO Bakery">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    <div class="absolute bottom-6 left-6">
+                        <span class="px-3 py-1 badge-awo text-white text-xs font-bold rounded-full mb-2 inline-block">2 Varieties</span>
+                        <h3 class="font-serif text-2xl font-bold">AWO Bakery</h3>
+                    </div>
+                </div>
+                <p class="text-white/60 text-sm">Butter Bread and Sugar Bread. Masters of the honey-glazed crust.</p>
+            </div>
+
+            <!-- Salah Bakery -->
+            <div class="bakery-card group">
+                <div class="relative h-80 rounded-3xl overflow-hidden mb-4">
+                    <img src="https://images.unsplash.com/photo-1517433670267-08bbd4be890f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                         class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Salah Bakery">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    <div class="absolute bottom-6 left-6">
+                        <span class="px-3 py-1 badge-salah text-white text-xs font-bold rounded-full mb-2 inline-block">2 Varieties</span>
+                        <h3 class="font-serif text-2xl font-bold">Salah Bakery</h3>
+                    </div>
+                </div>
+                <p class="text-white/60 text-sm">Butter Bread and Sugar Bread. Artisan quality with dried fruits and nuts.</p>
+            </div>
+
+            <!-- Vitality Bread Bakery -->
+            <div class="bakery-card group">
+                <div class="relative h-80 rounded-3xl overflow-hidden mb-4">
+                    <img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                         class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Vitality Bread Bakery">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    <div class="absolute bottom-6 left-6">
+                        <span class="px-3 py-1 badge-vitality text-white text-xs font-bold rounded-full mb-2 inline-block">3 Varieties</span>
+                        <h3 class="font-serif text-2xl font-bold">Vitality Bread Bakery</h3>
+                    </div>
+                </div>
+                <p class="text-white/60 text-sm">Butter, Sugar, and Wheat Bread. Healthy options for the whole family.</p>
+            </div>
+
+            <!-- First Class (FC) Bakery -->
+            <div class="bakery-card group">
+                <div class="relative h-80 rounded-3xl overflow-hidden mb-4">
+                    <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                         class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="First Class Bakery">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    <div class="absolute bottom-6 left-6">
+                        <span class="px-3 py-1 badge-fc text-white text-xs font-bold rounded-full mb-2 inline-block">3 Varieties</span>
+                        <h3 class="font-serif text-2xl font-bold">First Class (FC) Bakery</h3>
+                    </div>
+                </div>
+                <p class="text-white/60 text-sm">Butter, Sugar, and Wheat Bread. Premium quality you can taste in every bite.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section - Restructured by Bakery -->
+    <section id="menu" class="py-24 lg:py-32">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <span class="text-clay font-bold tracking-widest uppercase text-sm mb-4 block">The Collection</span>
+                <h2 class="font-serif text-4xl lg:text-6xl font-bold text-forest mb-6">Our Bread Menu</h2>
+                <p class="text-stone max-w-2xl mx-auto text-lg">Browse by bakery to find your favorite bread. All items sourced fresh every morning.</p>
+            </div>
+
+            <!-- Filter by Bakery -->
+            <div class="flex justify-center gap-3 mb-12 flex-wrap reveal">
+                <button class="bakery-filter active px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 bg-forest text-white shadow-lg" data-filter="all">
+                    All Bakeries
+                </button>
+                <button class="bakery-filter px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 bg-white text-forest border border-forest/20 hover:border-forest hover:shadow-md" data-filter="hotoven">
+                    Hot Oven
+                </button>
+                <button class="bakery-filter px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 bg-white text-forest border border-forest/20 hover:border-forest hover:shadow-md" data-filter="freshbite">
+                    Fresh Bite
+                </button>
+                <button class="bakery-filter px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 bg-white text-forest border border-forest/20 hover:border-forest hover:shadow-md" data-filter="a1">
+                    A1 Bread
+                </button>
+                <button class="bakery-filter px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 bg-white text-forest border border-forest/20 hover:border-forest hover:shadow-md" data-filter="maaregi">
+                    Maa Regi
+                </button>
+                <button class="bakery-filter px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 bg-white text-forest border border-forest/20 hover:border-forest hover:shadow-md" data-filter="awo">
+                    AWO Bakery
+                </button>
+                <button class="bakery-filter px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 bg-white text-forest border border-forest/20 hover:border-forest hover:shadow-md" data-filter="salah">
+                    Salah Bakery
+                </button>
+                <button class="bakery-filter px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 bg-white text-forest border border-forest/20 hover:border-forest hover:shadow-md" data-filter="vitality">
+                    Vitality
+                </button>
+                <button class="bakery-filter px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 bg-white text-forest border border-forest/20 hover:border-forest hover:shadow-md" data-filter="fc">
+                    First Class (FC)
+                </button>
+            </div>
+
+            <div class="masonry-grid" id="menu-grid">
+
+                <!-- HOT OVEN - Cake Bread -->
+                <div class="masonry-item menu-item group" data-bakery="hotoven" data-type="cake">
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1517433670267-08bbd4be890f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                 class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Hot Oven Cake Bread">
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1 badge-hotoven text-white text-xs font-bold rounded-full">Hot Oven</span>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="px-3 py-1 bg-white/90 backdrop-blur text-forest text-xs font-bold rounded-full">Cake Bread</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-serif text-2xl font-bold text-forest mb-1">Cake Bread</h3>
+                            <p class="text-stone text-sm mb-4">Rich, moist, and perfectly sweet. A celebration favorite.</p>
+                            <a href="https://wa.me/233276462728?text=Hi%20Mama%20Rose,%20I'd%20like%20to%20order%20Cake%20Bread%20from%20Hot%20Oven" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-forest/5 text-forest font-bold rounded-xl hover:bg-forest hover:text-white transition-all duration-300 text-center">
+                                Order on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HOT OVEN - Butter Bread -->
+                <div class="masonry-item menu-item group" data-bakery="hotoven" data-type="butter">
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <div class="relative h-72 overflow-hidden">
+                            <img src="https://i.pinimg.com/736x/b5/96/ad/b596ada10ff251c00ca3a1052494a5e5.jpg"
+                                 class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Hot Oven Butter Bread">
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1 badge-hotoven text-white text-xs font-bold rounded-full">Hot Oven</span>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="px-3 py-1 bg-white/90 backdrop-blur text-forest text-xs font-bold rounded-full">Butter Bread</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-serif text-2xl font-bold text-forest mb-1">Butter Bread</h3>
+                            <p class="text-stone text-sm mb-4">Rich, soft, and fluffy. The perfect companion for your morning tea.</p>
+                            <a href="https://wa.me/233276462728?text=Hi%20Mama%20Rose,%20I'd%20like%20to%20order%20Butter%20Bread%20from%20Hot%20Oven" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-forest/5 text-forest font-bold rounded-xl hover:bg-forest hover:text-white transition-all duration-300 text-center">
+                                Order on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HOT OVEN - Fruit Bread -->
+                <div class="masonry-item menu-item group" data-bakery="hotoven" data-type="fruit">
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <div class="relative h-60 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                 class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Hot Oven Fruit Bread">
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1 badge-hotoven text-white text-xs font-bold rounded-full">Hot Oven</span>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="px-3 py-1 bg-white/90 backdrop-blur text-forest text-xs font-bold rounded-full">Fruit Bread</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-serif text-2xl font-bold text-forest mb-1">Fruit Bread</h3>
+                            <p class="text-stone text-sm mb-4">Loaded with dried fruits and a hint of spice. A delightful treat.</p>
+                            <a href="https://wa.me/233276462728?text=Hi%20Mama%20Rose,%20I'd%20like%20to%20order%20Fruit%20Bread%20from%20Hot%20Oven" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-forest/5 text-forest font-bold rounded-xl hover:bg-forest hover:text-white transition-all duration-300 text-center">
+                                Order on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HOT OVEN - Milk & Chocolate Bread -->
+                <div class="masonry-item menu-item group" data-bakery="hotoven" data-type="chocolate">
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <div class="relative h-80 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                 class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Hot Oven Milk & Chocolate Bread">
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1 badge-hotoven text-white text-xs font-bold rounded-full">Hot Oven</span>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="px-3 py-1 bg-white/90 backdrop-blur text-forest text-xs font-bold rounded-full">Milk & Chocolate</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-serif text-2xl font-bold text-forest mb-1">Milk & Chocolate Bread</h3>
+                            <p class="text-stone text-sm mb-4">Creamy milk-infused dough with rich chocolate swirls. Kids love it!</p>
+                            <a href="https://wa.me/233276462728?text=Hi%20Mama%20Rose,%20I'd%20like%20to%20order%20Milk%20and%20Chocolate%20Bread%20from%20Hot%20Oven" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-forest/5 text-forest font-bold rounded-xl hover:bg-forest hover:text-white transition-all duration-300 text-center">
+                                Order on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FRESH BITE - Slice Bread -->
+                <div class="masonry-item menu-item group" data-bakery="freshbite" data-type="slice">
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <div class="relative h-56 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1598373182133-52452f7691ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                 class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Fresh Bite Slice Bread">
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1 badge-freshbite text-white text-xs font-bold rounded-full">Fresh Bite</span>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="px-3 py-1 bg-white/90 backdrop-blur text-forest text-xs font-bold rounded-full">Slice Bread</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-serif text-2xl font-bold text-forest mb-1">Slice Bread</h3>
+                            <p class="text-stone text-sm mb-4">Perfectly sliced for sandwiches and toast. Soft and fresh.</p>
+                            <a href="https://wa.me/233276462728?text=Hi%20Mama%20Rose,%20I'd%20like%20to%20order%20Slice%20Bread%20from%20Fresh%20Bite" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-forest/5 text-forest font-bold rounded-xl hover:bg-forest hover:text-white transition-all duration-300 text-center">
+                                Order on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- A1 - Cake Bread -->
+                <div class="masonry-item menu-item group" data-bakery="a1" data-type="cake">
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <div class="relative h-72 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                 class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="A1 Cake Bread">
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1 badge-a1 text-white text-xs font-bold rounded-full">A1 Bread</span>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="px-3 py-1 bg-white/90 backdrop-blur text-forest text-xs font-bold rounded-full">Cake Bread</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-serif text-2xl font-bold text-forest mb-1">Cake Bread</h3>
+                            <p class="text-stone text-sm mb-4">The gold standard. Dense, moist, and richly flavored.</p>
+                            <a href="https://wa.me/233276462728?text=Hi%20Mama%20Rose,%20I'd%20like%20to%20order%20Cake%20Bread%20from%20A1%20Bread" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-forest/5 text-forest font-bold rounded-xl hover:bg-forest hover:text-white transition-all duration-300 text-center">
+                                Order on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MAA REGI - Butter Bread -->
+                <div class="masonry-item menu-item group" data-bakery="maaregi" data-type="butter">
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                 class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Maa Regi Butter Bread">
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1 badge-maaregi text-white text-xs font-bold rounded-full">Maa Regi</span>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="px-3 py-1 bg-white/90 backdrop-blur text-forest text-xs font-bold rounded-full">Butter Bread</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-serif text-2xl font-bold text-forest mb-1">Butter Bread</h3>
+                            <p class="text-stone text-sm mb-4">Traditional homestyle butter bread. Soft, rich, and comforting.</p>
+                            <a href="https://wa.me/233276462728?text=Hi%20Mama%20Rose,%20I'd%20like%20to%20order%20Butter%20Bread%20from%20Maa%20Regi%20Bakery" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-forest/5 text-forest font-bold rounded-xl hover:bg-forest hover:text-white transition-all duration-300 text-center">
+                                Order on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MAA REGI - Sugar Bread -->
+                <div class="masonry-item menu-item group" data-bakery="maaregi" data-type="sugar">
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <div class="relative h-72 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                 class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Maa Regi Sugar Bread">
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1 badge-maaregi text-white text-xs font-bold rounded-full">Maa Regi</span>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="px-3 py-1 bg-white/90 backdrop-blur text-forest text-xs font-bold rounded-full">Sugar Bread</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-serif text-2xl font-bold text-forest mb-1">Sugar Bread</h3>
+                            <p class="text-stone text-sm mb-4">Lightly sweetened with a golden crust. Perfect for any time of day.</p>
+                            <a href="https://wa.me/233276462728?text=Hi%20Mama%20Rose,%20I'd%20like%20to%20order%20Sugar%20Bread%20from%20Maa%20Regi%20Bakery" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-forest/5 text-forest font-bold rounded-xl hover:bg-forest hover:text-white transition-all duration-300 text-center">
+                                Order on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AWO - Butter Bread -->
+                <div class="masonry-item menu-item group" data-bakery="awo" data-type="butter">
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <div class="relative h-60 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1598373182133-52452f7691ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                 class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="AWO Butter Bread">
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1 badge-awo text-white text-xs font-bold rounded-full">AWO Bakery</span>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="px-3 py-1 bg-white/90 backdrop-blur text-forest text-xs font-bold rounded-full">Butter Bread</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-serif text-2xl font-bold text-forest mb-1">Butter Bread</h3>
+                            <p class="text-stone text-sm mb-4">Rich and creamy with a unique honey-glazed finish.</p>
+                            <a href="https://wa.me/233276462728?text=Hi%20Mama%20Rose,%20I'd%20like%20to%20order%20Butter%20Bread%20from%20AWO%20Bakery" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-forest/5 text-forest font-bold rounded-xl hover:bg-forest hover:text-white transition-all duration-300 text-center">
+                                Order on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AWO - Sugar Bread -->
+                <div class="masonry-item menu-item group" data-bakery="awo" data-type="sugar">
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <div class="relative h-80 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                 class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="AWO Sugar Bread">
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1 badge-awo text-white text-xs font-bold rounded-full">AWO Bakery</span>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="px-3 py-1 bg-white/90 backdrop-blur text-forest text-xs font-bold rounded-full">Sugar Bread</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-serif text-2xl font-bold text-forest mb-1">Sugar Bread</h3>
+                            <p class="text-stone text-sm mb-4">Hearty texture with a hint of molasses sweetness.</p>
+                            <a href="https://wa.me/233276462728?text=Hi%20Mama%20Rose,%20I'd%20like%20to%20order%20Sugar%20Bread%20from%20AWO%20Bakery" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-forest/5 text-forest font-bold rounded-xl hover:bg-forest hover:text-white transition-all duration-300 text-center">
+                                Order on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SALAH - Butter Bread -->
+                <div class="masonry-item menu-item group" data-bakery="salah" data-type="butter">
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <div class="relative h-72 overflow-hidden">
+                            <img src="https://www.tastingtable.com/img/gallery/the-bread-tip-for-keeping-your-baked-goods-from-going-stale/press-slices-of-bread-against-exposed-cake-1680019953.jpg"
+                                 class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Salah Butter Bread">
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1 badge-salah text-white text-xs font-bold rounded-full">Salah Bakery</span>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="px-3 py-1 bg-white/90 backdrop-blur text-forest text-xs font-bold rounded-full">Butter Bread</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-serif text-2xl font-bold text-forest mb-1">Butter Bread</h3>
+                            <p class="text-stone text-sm mb-4">Artisan quality with dried fruits and nuts mixed in.</p>
+                            <a href="https://wa.me/233276462728?text=Hi%20Mama%20Rose,%20I'd%20like%20to%20order%20Butter%20Bread%20from%20Salah%20Bakery" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-forest/5 text-forest font-bold rounded-xl hover:bg-forest hover:text-white transition-all duration-300 text-center">
+                                Order on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SALAH - Sugar Bread -->
+                <div class="masonry-item menu-item group" data-bakery="salah" data-type="sugar">
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                 class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Salah Sugar Bread">
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1 badge-salah text-white text-xs font-bold rounded-full">Salah Bakery</span>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="px-3 py-1 bg-white/90 backdrop-blur text-forest text-xs font-bold rounded-full">Sugar Bread</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-serif text-2xl font-bold text-forest mb-1">Sugar Bread</h3>
+                            <p class="text-stone text-sm mb-4">Sweet and hearty with a beautiful golden-brown crust.</p>
+                            <a href="https://wa.me/233276462728?text=Hi%20Mama%20Rose,%20I'd%20like%20to%20order%20Sugar%20Bread%20from%20Salah%20Bakery" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-forest/5 text-forest font-bold rounded-xl hover:bg-forest hover:text-white transition-all duration-300 text-center">
+                                Order on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VITALITY - Butter Bread -->
+                <div class="masonry-item menu-item group" data-bakery="vitality" data-type="butter">
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <div class="relative h-60 overflow-hidden">
+                            <img src="https://www.sbakels.co.za/wp-content/uploads/sites/14/2022/10/SB_Butter_Bread-scaled.jpg"
+                                 class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Vitality Butter Bread">
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1 badge-vitality text-white text-xs font-bold rounded-full">Vitality</span>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="px-3 py-1 bg-white/90 backdrop-blur text-forest text-xs font-bold rounded-full">Butter Bread</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-serif text-2xl font-bold text-forest mb-1">Butter Bread</h3>
+                            <p class="text-stone text-sm mb-4">Healthy and wholesome butter bread for the whole family.</p>
+                            <a href="https://wa.me/233276462728?text=Hi%20Mama%20Rose,%20I'd%20like%20to%20order%20Butter%20Bread%20from%20Vitality%20Bread%20Bakery" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-forest/5 text-forest font-bold rounded-xl hover:bg-forest hover:text-white transition-all duration-300 text-center">
+                                Order on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VITALITY - Sugar Bread -->
+                <div class="masonry-item menu-item group" data-bakery="vitality" data-type="sugar">
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <div class="relative h-72 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                 class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Vitality Sugar Bread">
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1 badge-vitality text-white text-xs font-bold rounded-full">Vitality</span>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="px-3 py-1 bg-white/90 backdrop-blur text-forest text-xs font-bold rounded-full">Sugar Bread</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-serif text-2xl font-bold text-forest mb-1">Sugar Bread</h3>
+                            <p class="text-stone text-sm mb-4">Naturally sweetened with a soft, fluffy texture.</p>
+                            <a href="https://wa.me/233276462728?text=Hi%20Mama%20Rose,%20I'd%20like%20to%20order%20Sugar%20Bread%20from%20Vitality%20Bread%20Bakery" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-forest/5 text-forest font-bold rounded-xl hover:bg-forest hover:text-white transition-all duration-300 text-center">
+                                Order on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VITALITY - Wheat Bread -->
+                <div class="masonry-item menu-item group" data-bakery="vitality" data-type="wheat">
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <div class="relative h-80 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                 class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Vitality Wheat Bread">
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1 badge-vitality text-white text-xs font-bold rounded-full">Vitality</span>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="px-3 py-1 bg-white/90 backdrop-blur text-forest text-xs font-bold rounded-full">Wheat Bread</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-serif text-2xl font-bold text-forest mb-1">Wheat Bread</h3>
+                            <p class="text-stone text-sm mb-4">100% whole wheat. Nutritious, fiber-rich, and delicious.</p>
+                            <a href="https://wa.me/233276462728?text=Hi%20Mama%20Rose,%20I'd%20like%20to%20order%20Wheat%20Bread%20from%20Vitality%20Bread%20Bakery" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-forest/5 text-forest font-bold rounded-xl hover:bg-forest hover:text-white transition-all duration-300 text-center">
+                                Order on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FIRST CLASS (FC) - Butter Bread -->
+                <div class="masonry-item menu-item group" data-bakery="fc" data-type="butter">
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1598373182133-52452f7691ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                 class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="FC Butter Bread">
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1 badge-fc text-white text-xs font-bold rounded-full">First Class (FC)</span>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="px-3 py-1 bg-white/90 backdrop-blur text-forest text-xs font-bold rounded-full">Butter Bread</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-serif text-2xl font-bold text-forest mb-1">Butter Bread</h3>
+                            <p class="text-stone text-sm mb-4">Premium quality butter bread. Rich taste in every bite.</p>
+                            <a href="https://wa.me/233276462728?text=Hi%20Mama%20Rose,%20I'd%20like%20to%20order%20Butter%20Bread%20from%20First%20Class%20Bakery" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-forest/5 text-forest font-bold rounded-xl hover:bg-forest hover:text-white transition-all duration-300 text-center">
+                                Order on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FIRST CLASS (FC) - Sugar Bread -->
+                <div class="masonry-item menu-item group" data-bakery="fc" data-type="sugar">
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <div class="relative h-72 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                 class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="FC Sugar Bread">
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1 badge-fc text-white text-xs font-bold rounded-full">First Class (FC)</span>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="px-3 py-1 bg-white/90 backdrop-blur text-forest text-xs font-bold rounded-full">Sugar Bread</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-serif text-2xl font-bold text-forest mb-1">Sugar Bread</h3>
+                            <p class="text-stone text-sm mb-4">Perfectly sweetened with a premium soft texture.</p>
+                            <a href="https://wa.me/233276462728?text=Hi%20Mama%20Rose,%20I'd%20like%20to%20order%20Sugar%20Bread%20from%20First%20Class%20Bakery" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-forest/5 text-forest font-bold rounded-xl hover:bg-forest hover:text-white transition-all duration-300 text-center">
+                                Order on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FIRST CLASS (FC) - Wheat Bread -->
+                <div class="masonry-item menu-item group" data-bakery="fc" data-type="wheat">
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <div class="relative h-60 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                 class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="FC Wheat Bread">
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1 badge-fc text-white text-xs font-bold rounded-full">First Class (FC)</span>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="px-3 py-1 bg-white/90 backdrop-blur text-forest text-xs font-bold rounded-full">Wheat Bread</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-serif text-2xl font-bold text-forest mb-1">Wheat Bread</h3>
+                            <p class="text-stone text-sm mb-4">Premium whole wheat bread. Healthy never tasted this good.</p>
+                            <a href="https://wa.me/233276462728?text=Hi%20Mama%20Rose,%20I'd%20like%20to%20order%20Wheat%20Bread%20from%20First%20Class%20Bakery" target="_blank" rel="noopener noreferrer" class="block w-full py-3 bg-forest/5 text-forest font-bold rounded-xl hover:bg-forest hover:text-white transition-all duration-300 text-center">
+                                Order on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Process -->
+    <section id="order" class="py-24 bg-clay-light/20">
+        <div class="max-w-5xl mx-auto px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <span class="text-clay font-bold tracking-widest uppercase text-sm mb-4 block">Simple & Easy</span>
+                <h2 class="font-serif text-4xl lg:text-5xl font-bold text-forest mb-6">How It Works</h2>
+            </div>
+
+            <div class="relative">
+                <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-clay/20 -translate-x-1/2"></div>
+
+                <div class="relative mb-16 md:mb-24 reveal">
+                    <div class="md:flex items-center justify-between">
+                        <div class="md:w-5/12 md:text-right mb-6 md:mb-0">
+                            <h3 class="font-serif text-2xl font-bold text-forest mb-2">Browse & Select</h3>
+                            <p class="text-stone">Explore our menu from 8 partner bakeries with over 15 unique bread varieties.</p>
+                        </div>
+                        <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-16 h-16 bg-clay rounded-full items-center justify-center text-white text-2xl shadow-lg z-10">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                        <div class="md:w-5/12 flex md:justify-start">
+                            <div class="w-full md:w-auto bg-white p-6 rounded-2xl shadow-lg">
+                                <div class="flex items-center gap-4">
+                                    <div class="md:hidden w-12 h-12 bg-clay rounded-full flex items-center justify-center text-white shrink-0">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-forest">Walk-in or Call</p>
+                                        <p class="text-sm text-stone">Pre-orders recommended</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative mb-16 md:mb-24 reveal">
+                    <div class="md:flex items-center justify-between">
+                        <div class="md:w-5/12 md:order-2 mb-6 md:mb-0">
+                            <h3 class="font-serif text-2xl font-bold text-forest mb-2">We Prepare</h3>
+                            <p class="text-stone">We coordinate with our bakeries to reserve or bake your selection fresh.</p>
+                        </div>
+                        <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-16 h-16 bg-forest rounded-full items-center justify-center text-white text-2xl shadow-lg z-10">
+                            <i class="fa-solid fa-fire-burner"></i>
+                        </div>
+                        <div class="md:w-5/12 md:order-1 flex md:justify-end">
+                            <div class="w-full md:w-auto bg-white p-6 rounded-2xl shadow-lg">
+                                <div class="flex items-center gap-4 md:flex-row-reverse">
+                                    <div class="md:hidden w-12 h-12 bg-forest rounded-full flex items-center justify-center text-white shrink-0">
+                                        <i class="fa-solid fa-fire-burner"></i>
+                                    </div>
+                                    <div class="md:text-right">
+                                        <p class="font-bold text-forest">Same Day Service</p>
+                                        <p class="text-sm text-stone">Freshness guaranteed</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative reveal">
+                    <div class="md:flex items-center justify-between">
+                        <div class="md:w-5/12 md:text-right mb-6 md:mb-0">
+                            <h3 class="font-serif text-2xl font-bold text-forest mb-2">Enjoy!</h3>
+                            <p class="text-stone">Pick up at our shop or have it delivered hot to your doorstep.</p>
+                        </div>
+                        <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-16 h-16 bg-clay rounded-full items-center justify-center text-white text-2xl shadow-lg z-10">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                        <div class="md:w-5/12 flex md:justify-start">
+                            <div class="w-full md:w-auto bg-white p-6 rounded-2xl shadow-lg">
+                                <div class="flex items-center gap-4">
+                                    <div class="md:hidden w-12 h-12 bg-clay rounded-full flex items-center justify-center text-white shrink-0">
+                                        <i class="fa-solid fa-heart"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-forest">Delivery Available</p>
+                                        <p class="text-sm text-stone">Or quick pickup</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visit / Contact Section -->
+    <section id="visit" class="py-24 lg:py-32 relative">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-0 rounded-[2.5rem] overflow-hidden shadow-2xl reveal scale-reveal">
+                <!-- Info Side -->
+                <div class="bg-forest p-10 lg:p-16 text-white relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+
+                    <span class="text-clay-light font-bold tracking-widest uppercase text-sm mb-6 block">Visit Us</span>
+                    <h2 class="font-serif text-4xl lg:text-5xl font-bold mb-8">Come Say Hello</h2>
+
+                    <div class="space-y-8">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-location-dot text-clay-light text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">Location</h4>
+                                <p class="text-white/70">Anyinam Main Taxi Station<br>Akyem Anyinam, Ghana</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-clock text-clay-light text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">Opening Hours</h4>
+                                <p class="text-white/70">Monday - Saturday: 6am - 10pm<br>Sunday: 7am - 8pm</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-phone text-clay-light text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">Contact</h4>
+                                <p class="text-white/70">027 646 2728 <br> 059 889 3874<br>rose.baah070@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Call & WhatsApp Buttons -->
+                    <div class="mt-10 space-y-3">
+                        <p class="text-sm text-white/60 mb-3 font-medium">Ready to order? Reach us directly:</p>
+                        <a href="tel:0276462728" class="flex items-center justify-center gap-3 w-full py-4 bg-clay text-white font-bold rounded-xl hover:bg-clay-light hover:text-forest transition-all duration-300 shadow-lg pulse-cta">
+                            <i class="fa-solid fa-phone-volume text-xl"></i>
+                            Call to Order Now
+                        </a>
+                        <a href="https://wa.me/233276462728?text=Hi%20Mama%20Rose!%20I'd%20like%20to%20place%20an%20order." target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-3 w-full py-4 bg-green-500 text-white font-bold rounded-xl hover:bg-green-600 transition-all duration-300 shadow-lg">
+                            <i class="fa-brands fa-whatsapp text-xl"></i>
+                            Order on WhatsApp
+                        </a>
+                    </div>
+
+                    <div class="mt-10 pt-8 border-t border-white/10">
+                        <p class="text-sm text-white/50 mb-4">Follow our daily fresh arrivals</p>
+                        <div class="flex gap-3">
+                            <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-clay transition-colors">
+                                <i class="fa-brands fa-instagram"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-clay transition-colors">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </a>
+                            <a href="https://wa.me/233276462728" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-green-500 transition-colors">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Side -->
+                <div class="bg-white p-10 lg:p-16">
+                    <h3 class="font-serif text-3xl font-bold text-forest mb-2">Send a Message</h3>
+                    <p class="text-stone mb-8">Place a pre-order or ask us anything.</p>
+
+                    <form id="contact-form" class="space-y-5">
+                        <div>
+                            <label for="contact-name" class="block text-sm font-bold text-forest mb-2">Your Name</label>
+                            <input id="contact-name" name="name" type="text" autocomplete="name" required class="w-full px-5 py-4 bg-cream-warm rounded-xl border-2 border-transparent focus:border-clay focus:bg-white outline-none transition-all" placeholder="John Doe">
+                        </div>
+                        <div>
+                            <label for="contact-phone" class="block text-sm font-bold text-forest mb-2">Phone Number</label>
+                            <input id="contact-phone" name="phone" type="tel" autocomplete="tel" required class="w-full px-5 py-4 bg-cream-warm rounded-xl border-2 border-transparent focus:border-clay focus:bg-white outline-none transition-all" placeholder="027 646 2728">
+                        </div>
+                        <div>
+                            <label for="contact-details" class="block text-sm font-bold text-forest mb-2">Order Details</label>
+                            <textarea id="contact-details" name="details" rows="4" required class="w-full px-5 py-4 bg-cream-warm rounded-xl border-2 border-transparent focus:border-clay focus:bg-white outline-none transition-all resize-none" placeholder="What breads would you like?"></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-4 bg-clay text-white font-bold rounded-xl hover:bg-forest transition-all duration-300 shadow-lg hover:shadow-xl">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-charcoal text-white py-16">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-clay rounded-full flex items-center justify-center text-white">
+                            <i class="fa-solid fa-wheat-awn text-lg"></i>
+                        </div>
+                        <span class="font-serif text-2xl font-bold">Mama Rose</span>
+                    </div>
+                    <p class="text-white/50 max-w-sm leading-relaxed">
+                        Curating the finest breads from Akyem Anyinam's best bakeries. Every loaf is hand-selected with love for your family table.
+                    </p>
+                    <div class="mt-6 space-y-2 text-white/60 text-sm">
+                        <p><i class="fa-solid fa-location-dot mr-2 text-clay"></i> Anyinam Main Taxi Station, Akyem Anyinam</p>
+                        <p><i class="fa-solid fa-phone mr-2 text-clay"></i> 027 646 2728 / 059 889 3874</p>
+                        <p><i class="fa-solid fa-envelope mr-2 text-clay"></i> rose.baah070@gmail.com</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-clay mb-4">Quick Links</h4>
+                    <ul class="space-y-3 text-white/60">
+                        <li><a href="#story" class="hover:text-white transition">Our Story</a></li>
+                        <li><a href="#bakeries" class="hover:text-white transition">Partner Bakeries</a></li>
+                        <li><a href="#menu" class="hover:text-white transition">Menu</a></li>
+                        <li><a href="#visit" class="hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-clay mb-4">Our Bakeries</h4>
+                    <ul class="space-y-2 text-white/60 text-sm">
+                        <li>Hot Oven</li>
+                        <li>Fresh Bite</li>
+                        <li>A1 Bread</li>
+                        <li>Maa Regi Bakery</li>
+                        <li>AWO Bakery</li>
+                        <li>Salah Bakery</li>
+                        <li>Vitality Bread Bakery</li>
+                        <li>First Class (FC) Bakery</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-white/40 text-sm"> Mama Rose Bread Shop. All rights reserved.</p>
+                <p class="text-white/40 text-sm"> Designed By John Kyei.</p>
+                <p class="text-white/40 text-sm">Made with <i class="fa-solid fa-heart text-clay"></i> in Akyem Anyinam</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Contact Button (Mobile) -->
+    <a href="https://wa.me/233276462728?text=Hi%20Mama%20Rose!%20I'd%20like%20to%20place%20an%20order." target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 z-40 lg:hidden w-14 h-14 bg-green-500 text-white rounded-full flex items-center justify-center shadow-2xl hover:bg-green-600 transition-colors pulse-cta">
+        <i class="fa-brands fa-whatsapp text-2xl"></i>
+    </a>
+
+    <script>
+        // Show an illustrated fallback if an externally hosted image is unavailable.
+        const imageFallback = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><rect width="800" height="600" fill="#f4e8dc"/><path d="M175 365c0-70 55-125 125-125 22-65 81-105 155-105 87 0 155 67 155 150 38 15 65 52 65 95 0 58-47 105-105 105H280c-58 0-105-47-105-105Z" fill="#c4704b"/><path d="M282 302c37-34 74-34 111 0m40-47c37-34 74-34 111 0" fill="none" stroke="#faf6f1" stroke-width="16" stroke-linecap="round"/></svg>');
+        document.querySelectorAll('img').forEach((image) => {
+            if (!image.hasAttribute('fetchpriority')) {
+                image.loading = 'lazy';
+                image.decoding = 'async';
+            }
+            image.addEventListener('error', () => {
+                if (image.src !== imageFallback) image.src = imageFallback;
+            }, { once: true });
+            if (image.complete && image.naturalWidth === 0) image.dispatchEvent(new Event('error'));
+        });
+
+        // Mobile Menu
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const mobileClose = document.getElementById('mobile-close');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function openMenu() {
+            mobileMenu.classList.add('open');
+            mobileMenu.setAttribute('aria-hidden', 'false');
+            mobileMenu.inert = false;
+            mobileToggle.setAttribute('aria-expanded', 'true');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            mobileMenu.classList.remove('open');
+            mobileMenu.setAttribute('aria-hidden', 'true');
+            mobileMenu.inert = true;
+            mobileToggle.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+
+        mobileToggle.addEventListener('click', openMenu);
+        mobileClose.addEventListener('click', closeMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+                closeMenu();
+            }
+        });
+
+        // Open a prefilled email in the visitor's mail app for contact requests.
+        document.getElementById('contact-form').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const form = event.currentTarget;
+            const subject = encodeURIComponent('Bread order or enquiry from ' + form.elements.name.value);
+            const body = encodeURIComponent('Name: ' + form.elements.name.value + '\nPhone: ' + form.elements.phone.value + '\n\n' + form.elements.details.value);
+            window.location.href = 'mailto:rose.baah070@gmail.com?subject=' + subject + '&body=' + body;
+        });
+
+        // Navbar Scroll Effect
+        const nav = document.getElementById('main-nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-cream-warm/95', 'backdrop-blur-md', 'shadow-sm');
+            } else {
+                nav.classList.remove('bg-cream-warm/95', 'backdrop-blur-md', 'shadow-sm');
+            }
+        });
+
+        // Bakery Filtering
+        const bakeryFilters = document.querySelectorAll('.bakery-filter');
+        const menuItems = document.querySelectorAll('.menu-item');
+
+        bakeryFilters.forEach(btn => {
+            btn.addEventListener('click', () => {
+                bakeryFilters.forEach(b => {
+                    b.classList.remove('bg-forest', 'text-white', 'shadow-lg');
+                    b.classList.add('bg-white', 'text-forest', 'border', 'border-forest/20');
+                });
+                btn.classList.remove('bg-white', 'text-forest', 'border', 'border-forest/20');
+                btn.classList.add('bg-forest', 'text-white', 'shadow-lg');
+
+                const filter = btn.getAttribute('data-filter');
+
+                menuItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-bakery') === filter) {
+                        item.style.display = 'block';
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'scale(1)';
+                        }, 50);
+                    } else {
+                        item.style.opacity = '0';
+                        item.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                            item.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+
+        // Scroll Reveal Animation
+        const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .scale-reveal');
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
